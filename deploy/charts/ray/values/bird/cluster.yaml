@@ -8,6 +8,7 @@ ray_version: 1.6.0
 
 # image is Ray image to use for the head and workers of this Ray cluster.
 image: us-west1-docker.pkg.dev/glass-development-darkhelmet/ray/ray-node:{{ .Values.ray_version }}
+imagePullSecrets: []
 
 # headPodType is the podType used for the Ray head node (as configured below).
 headPodType: rayHeadType
@@ -49,12 +50,12 @@ podTypes:
   # The key for each podType is a user-defined string.
   rayWorkerType:
     # minWorkers is the minimum number of Ray workers of this pod type to keep running.
-    minWorkers: 1
+    minWorkers: 2
     # maxWorkers is the maximum number of Ray workers of this pod type to which Ray will scale.
-    maxWorkers: 1
+    maxWorkers: 2
     # memory is the memory used by this Pod type.
     # (Used for both requests and limits.)
-    memory: 25Gi
+    memory: 53Gi
     # CPU is the number of CPUs used by this pod type.
     # (Used for both requests and limits. Must be an integer, as Ray does not support fractional CPUs.)
     CPU: 6
@@ -69,7 +70,7 @@ podTypes:
     # Optionally, set a node selector for this Pod type. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
     nodeSelector:
       literal.ai/node-type: ray-node
-      cloud.google.com/gke-nodepool: ray-gpu-big
+      cloud.google.com/gke-nodepool: ray-gpu
     serviceAccountName: ray-operator-serviceaccount
     workerSetupCommands:
       - mkdir -p /root/ray
