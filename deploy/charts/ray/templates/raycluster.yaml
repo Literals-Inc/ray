@@ -47,6 +47,10 @@ spec:
           containers:
           - name: ray-node
             imagePullPolicy: Always
+            #securityContext:
+              #capabilities:
+                #add:
+                #- SYS_PTRACE
             image: {{ tpl $.Values.image $ }}
             # Do not change this command - it keeps the pod alive until it is
             # explicitly killed.
